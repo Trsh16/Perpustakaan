@@ -10,11 +10,12 @@ import SwiftUI
 
 class LibraryViewModel: ObservableObject {
     @Environment(\.modelContext) private var modelContext: ModelContext
-
+    
     @Published var books: [Book] = []
     @Published var members: [anggota] = []
     @Published var loans: [Loan] = []
-
+    @Published var bookToEdit: Book?
+    
     init() {
         self.books = [
             Book(id: 1, title: "The Catcher in the Rye", author: "J.D. Salinger"),
@@ -22,7 +23,7 @@ class LibraryViewModel: ObservableObject {
             Book(id: 3, title: "1984", author: "George Orwell"),
             Book(id: 4, title: "Pride and Prejudice", author: "Jane Austen")
         ]
-    
+        
         self.members = [
             anggota(id: 1, name: "Budi Budiman", phone: "081213456782"),
             anggota(id: 2, name: "Andi Andika", phone: "089876543213"),
@@ -44,8 +45,8 @@ class LibraryViewModel: ObservableObject {
             }
         }
     }
-
-
+    
+    
     func addBook(title: String, author: String) {
         let nextID = (books.map { $0.id }.max() ?? 0) + 1
         let book = Book(id: nextID, title: title, author: author, isAvailable: true)
@@ -53,7 +54,7 @@ class LibraryViewModel: ObservableObject {
         modelContext.insert(book)
         try? modelContext.save()
     }
-
+    
     func addMember(name: String, phone: String) {
         let nextID = (members.map { $0.id }.max() ?? 0) + 1
         let member = anggota(id: nextID, name: name, phone: phone)
@@ -61,7 +62,7 @@ class LibraryViewModel: ObservableObject {
         modelContext.insert(member)
         try? modelContext.save()
     }
-
+    
     func borrowBook(bookId: Int, memberId: Int) {
         guard let book = books.first(where: { $0.id == bookId && $0.isAvailable }) else {
             print("Book not available or does not exist.")
@@ -118,5 +119,20 @@ class LibraryViewModel: ObservableObject {
         }
         
         return (dueText, dueColor)
+    }
+    func deleteBook(_ book: Book) {
+        books.removeAll { $0.id == book.id }
+    }
+    func updateBook(_ book: Book, title: String, author: String) {
+        if let index = books.firstIndex(where: { $0.id == book.id }) {
+            books[index].title = title
+            books[index].author = author
+        }
+    }
+    func setBookToEdit(_ book: Book) {
+        bookToEdit = book
+    }
+    func deleteMember(at index: IndexSet) {
+        members.remove(atOffsets: index)
     }
 }

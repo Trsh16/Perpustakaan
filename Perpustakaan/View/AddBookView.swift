@@ -12,49 +12,57 @@ struct AddBookView: View {
     @State private var title: String = ""
     @State private var author: String = ""
     @State private var showAlert: Bool = false
-    @FocusState private var isBookFocused: Bool
+    var bookToEdit: Book?
+
+    init(libraryViewModel: LibraryViewModel, bookToEdit: Book? = nil) {
+        self.libraryViewModel = libraryViewModel
+        self.bookToEdit = bookToEdit
+    }
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Book Title")
+            Text(bookToEdit == nil ? "Book Title" : "Edit Book Title")
                 .font(.headline)
                 .padding()
 
             TextField("Book Title", text: $title)
-                .keyboardType(.default)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
-                .focused($isBookFocused)
-            
+
             Text("Author Name")
                 .font(.headline)
                 .padding()
-            
+
             TextField("Author Name", text: $author)
-                .keyboardType(.default)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
 
             Button(action: {
-                libraryViewModel.addBook(title: title, author: author)
+                if let bookToEdit = bookToEdit {
+                    libraryViewModel.updateBook(bookToEdit, title: title, author: author)
+                } else {
+                    libraryViewModel.addBook(title: title, author: author)
+                }
                 title = ""
                 author = ""
                 showAlert = true
             }) {
-                Text("Add Book")
+                Text(bookToEdit == nil ? "Add Book" : "Save Changes")
             }
             .buttonStyle(AdminButtonStyle(color: .orange))
-            .disabled(title.isEmpty || author.isEmpty) 
             .padding()
-
-            Spacer()
+            .alert("Book Added", isPresented: $showAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text("The book has been successfully \(bookToEdit == nil ? "added" : "updated") to the library.")
+            }
         }
-        .padding()
-        .navigationTitle("Add Book")
-        .alert("Book Added", isPresented: $showAlert) {
-            Button("OK", role: .cancel) { }
-        } message: {
-            Text("The book has been successfully added to the library.")
+        .onAppear {
+            if let bookToEdit = bookToEdit {
+                title = bookToEdit.title
+                author = bookToEdit.author
+            }
         }
+        Spacer()
     }
 }
