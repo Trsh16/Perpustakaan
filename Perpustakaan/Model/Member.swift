@@ -12,11 +12,11 @@ import SwiftData
 class anggota {
     var id : Int
     var name: String
-    var address: String
+    var phone: String
     
-    init(id: Int, name: String, address: String) {
+    init(id: Int, name: String, phone: String) {
         self.id = id
         self.name = name
-        self.address = address
+        self.phone = phone
     }
 }

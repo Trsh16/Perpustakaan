@@ -24,10 +24,10 @@ class LibraryViewModel: ObservableObject {
         ]
     
         self.members = [
-            anggota(id: 1, name: "Budi Budiman", address: "Jln. Sunset Boulevard"),
-            anggota(id: 2, name: "Andi Andika", address: "Jln. North West Boulevard"),
-            anggota(id: 3, name: "Cak Sumanto", address: "Jln. Ciputra Hills"),
-            anggota(id: 4, name: "Denny Suharto", address: "Jln. Lontar Boulevard")
+            anggota(id: 1, name: "Budi Budiman", phone: "081213456782"),
+            anggota(id: 2, name: "Andi Andika", phone: "089876543213"),
+            anggota(id: 3, name: "Cak Sumanto", phone: "087654345678"),
+            anggota(id: 4, name: "Denny Suharto", phone: "081234543234")
         ]
         
         let today = Date()
@@ -54,9 +54,9 @@ class LibraryViewModel: ObservableObject {
         try? modelContext.save()
     }
 
-    func addMember(name: String, address: String) {
+    func addMember(name: String, phone: String) {
         let nextID = (members.map { $0.id }.max() ?? 0) + 1
-        let member = anggota(id: nextID, name: name, address: address)
+        let member = anggota(id: nextID, name: name, phone: phone)
         members.append(member)
         modelContext.insert(member)
         try? modelContext.save()

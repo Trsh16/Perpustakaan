@@ -16,7 +16,7 @@ struct ViewMemberView: View {
                 VStack(alignment: .leading) {
                     Text(member.name)
                         .font(.headline)
-                    Text("Address: \(member.address)")
+                    Text("Phone Number: \(member.phone)")
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }

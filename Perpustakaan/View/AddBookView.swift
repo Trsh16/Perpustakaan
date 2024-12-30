@@ -12,10 +12,10 @@ struct AddBookView: View {
     @State private var title: String = ""
     @State private var author: String = ""
     @State private var showAlert: Bool = false
-    @FocusState private var isBookFocused: Bool  
+    @FocusState private var isBookFocused: Bool
 
     var body: some View {
-        VStack (alignment: .leading){
+        VStack(alignment: .leading) {
             Text("Book Title")
                 .font(.headline)
                 .padding()
@@ -42,9 +42,9 @@ struct AddBookView: View {
                 showAlert = true
             }) {
                 Text("Add Book")
-                   
             }
             .buttonStyle(AdminButtonStyle(color: .orange))
+            .disabled(title.isEmpty || author.isEmpty) 
             .padding()
 
             Spacer()
@@ -58,4 +58,3 @@ struct AddBookView: View {
         }
     }
 }
-

@@ -39,10 +39,10 @@ final class PerpustakaanUITests: XCTestCase {
         nameTextField.tap()
         nameTextField.typeText("Trisha")
 
-        let addressTextField = app.textFields["Member Address"]
-        XCTAssertTrue(addressTextField.exists, "The 'Member Address' text field should exist")
-        addressTextField.tap()
-        addressTextField.typeText("Jln. Dharmahusada")
+        let phoneTextField = app.textFields["Member Phone"]
+        XCTAssertTrue(phoneTextField.exists, "The 'Member Phone' text field should exist")
+        phoneTextField.tap()
+        phoneTextField.typeText("081325634789")
 
         let addMemberButton = app.buttons["Add Member"]
         XCTAssertTrue(addMemberButton.exists, "The 'Add Member' button should exist")

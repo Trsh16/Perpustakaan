@@ -44,7 +44,7 @@ struct MemberSelectionView: View {
                 Text("Borrow \(book.title)")
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(selectedMemberId == nil ? Color.gray : Color.blue)
+                    .background(selectedMemberId == nil ? Color.gray : Color.orange)
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     .padding()
